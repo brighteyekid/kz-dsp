@@ -4,22 +4,32 @@ High-performance, low-latency audio DSP pipeline engineered for the KZ Castor IE
 
 ![KZ DSP Logo](website/logo.png)
 
-## Architecture
+## 🏗 System Architecture
 
-```
-Computer Vision             iem-dspd (daemon)           iem-ui (GUI)
-├── iem-tracker.py  ────┐   ├── pw/          ◄──────────► ipc/
-│   (MediaPipe)         │   │   └── Virtual PipeWire     └── UnixStream JSON
-│   30 FPS Head Yaw     │   │       Sink/Source
-└───────────────────────┼──►├── dsp/
-                        │   │   ├── biquad.rs   (10-Band PEQ)
-                        │   │   ├── crossfeed.rs(BS2B)
-                        │   │   ├── hrtf.rs     (Woodworth HRTF + Freeverb FDN)
-                        │   │   └── engine.rs   (RT loop, lock-free atomics)
-                        └──►└── ipc/
-                                └── UnixDomainSocket server (Fast-Path)
-```
+```mermaid
+graph TD
+    classDef daemon fill:#0A0A0A,stroke:#1AA88E,stroke-width:2px,color:#FFF,border-radius:8px;
+    classDef cv fill:#0A0A0A,stroke:#C8A2FF,stroke-width:2px,color:#FFF,border-radius:8px;
+    classDef ui fill:#0A0A0A,stroke:#555,stroke-width:2px,color:#FFF,border-radius:8px;
+    classDef pw fill:#111,stroke:#333,stroke-width:1px,color:#DDD;
 
+    subgraph "External Control"
+        UI["iem-ui<br/>(Egui User Interface)"]:::ui
+        CV["iem-tracker.py<br/>(OpenCV + MediaPipe)"]:::cv
+    end
+
+    subgraph "IEM-DSPD Background Daemon (Rust)"
+        IPC["Fast-Path IPC<br/>(Unix Domain Sockets)"]:::daemon
+        DSP["Real-Time DSP Engine<br/>(Woodworth HRTF + Freeverb)"]:::daemon
+        PW["PipeWire Audio Server<br/>(Virtual Sink / Source)"]:::pw
+
+        IPC ==>|Lock-Free Atomic Config Swap| DSP
+        DSP <==>|Zero-Allocation Audio Stream| PW
+    end
+
+    UI -.->|JSON State Update| IPC
+    CV ==>|Real-Time Head Yaw Data| IPC
+```
 ## Core Features
 
 1. **Bare-Metal PipeWire Integration:** Interfaces directly with PipeWire streams.
