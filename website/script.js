@@ -1,62 +1,40 @@
-const lenis = new Lenis({
-    lerp: 0.35, // Higher lerp value completely eliminates the delay feeling
-    smoothWheel: true,
-    wheelMultiplier: 1.5, // Faster scroll mapping
-});
+// Intersection Observer for scroll animations
+const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.15
+};
 
-function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-}
-requestAnimationFrame(raf);
-
-// Wait for load
-window.addEventListener("load", () => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Hide loader
-    gsap.to('.loader', {
-        opacity: 0,
-        duration: 0.8,
-        delay: 0.5,
-        ease: "power2.inOut",
-        onComplete: () => {
-            document.querySelector('.loader').style.display = 'none';
+const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            
+            // If it's a benchmark bar row, animate the bar width
+            if (entry.target.classList.contains('b-row')) {
+                const bar = entry.target.querySelector('.b-bar');
+                if (bar) {
+                    bar.style.width = bar.getAttribute('data-width');
+                }
+            }
+            
+            observer.unobserve(entry.target);
         }
     });
+}, observerOptions);
 
-    // Hero intro (delayed after loader)
-    gsap.from(".reveal-text", {
-        y: 40,
-        opacity: 0,
-        duration: 1.2,
-        stagger: 0.15,
-        ease: "power3.out",
-        delay: 1.0
-    });
-
-    // Cards staggering
-    gsap.from(".feature-card", {
-        scrollTrigger: {
-            trigger: ".feature-grid",
-            start: "top 85%",
-        },
-        y: 60,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power2.out"
-    });
-
-    // Benchmark bars expanding
-    gsap.from(".b-bar", {
-        scrollTrigger: {
-            trigger: ".b-container",
-            start: "top 80%",
-        },
-        scaleX: 0,
-        duration: 1.5,
-        stagger: 0.15,
-        ease: "expo.out"
-    });
+// Wait for load to remove loader and start observing
+window.addEventListener("load", () => {
+    const loader = document.querySelector('.loader');
+    loader.style.opacity = '0';
+    loader.style.transition = 'opacity 0.8s ease';
+    
+    setTimeout(() => {
+        loader.style.display = 'none';
+        
+        // Start animations after loader is gone
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+    }, 800);
 });

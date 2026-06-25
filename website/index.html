@@ -6,8 +6,6 @@
     <title>KZ Castor DSP | True Spatial Audio</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body>
     <div class="loader">
@@ -33,15 +31,15 @@
 
     <header class="hero">
         <div class="hero-content">
-            <div class="badge reveal-text">OPEN SOURCE AUDIO ENGINE</div>
-            <h1 class="reveal-text">
+            <div class="badge reveal reveal-delay-1">OPEN SOURCE AUDIO ENGINE</div>
+            <h1 class="reveal reveal-delay-2">
                 <span class="text-gradient">BARE-METAL</span><br>
                 SPATIAL AUDIO.
             </h1>
-            <p class="subtitle reveal-text">
+            <p class="subtitle reveal reveal-delay-3">
                 A zero-latency Linux DSP daemon engineered in Rust. Featuring hardware-accelerated Woodworth HRTF, real-time head tracking, and zero allocation architecture for the KZ Castor IEMs.
             </p>
-            <div class="hero-stats reveal-text">
+            <div class="hero-stats reveal reveal-delay-4">
                 <div class="stat-box">
                     <span class="stat-val">0.05<small>ms</small></span>
                     <span class="stat-label">ADDED LATENCY</span>
@@ -59,27 +57,27 @@
     </header>
 
     <section id="features" class="section">
-        <div class="section-header">
+        <div class="section-header reveal">
             <span class="overline">Capabilities</span>
             <h2 class="section-title">IMMERSIVE PIPELINE</h2>
         </div>
         <div class="feature-grid">
-            <div class="feature-card glass-card">
+            <div class="feature-card glass-card reveal">
                 <div class="icon teal-glow"></div>
                 <h3>Spherical-Head HRTF</h3>
                 <p>Calculates precise Inter-aural Time Delays (ITD) and Level Differences (ILD) using the Woodworth model. Creates a massive, out-of-head soundstage.</p>
             </div>
-            <div class="feature-card glass-card">
+            <div class="feature-card glass-card reveal reveal-delay-1">
                 <div class="icon purple-glow"></div>
                 <h3>World-Locked Audio</h3>
                 <p>Integrates OpenCV and MediaPipe to track your head yaw via webcam. The audio stage stays anchored in physical space, mimicking Apple Vision Pro.</p>
             </div>
-            <div class="feature-card glass-card">
+            <div class="feature-card glass-card reveal reveal-delay-2">
                 <div class="icon white-glow"></div>
                 <h3>Parametric Mastering</h3>
                 <p>10-band zero-latency biquad PEQ. Fine-tune the KZ Castor's response with surgical precision before hitting the spatial processing engine.</p>
             </div>
-            <div class="feature-card glass-card">
+            <div class="feature-card glass-card reveal reveal-delay-3">
                 <div class="icon teal-glow"></div>
                 <h3>Freeverb FDN Room</h3>
                 <p>A stack-allocated Feedback Delay Network adds hyper-realistic early reflections and late reverberation, simulating a massive physical acoustic space.</p>
@@ -88,11 +86,11 @@
     </section>
 
     <section id="architecture" class="section">
-        <div class="section-header">
+        <div class="section-header reveal">
             <span class="overline">Under The Hood</span>
             <h2 class="section-title">SYSTEM ARCHITECTURE</h2>
         </div>
-        <div class="arch-container glass-card">
+        <div class="arch-container glass-card reveal">
             <div class="arch-text">
                 <p><strong>IEM-DSPD</strong> is a headless background daemon written in pure Rust. It hooks directly into the PipeWire audio server.</p>
                 <p>All DSP operations—including 10-band PEQ, crossfeed, HRTF convolution, and Reverb—are executed in a lock-free, zero-allocation real-time thread.</p>
@@ -109,38 +107,38 @@
     </section>
 
     <section id="benchmarks" class="section">
-        <div class="section-header">
+        <div class="section-header reveal">
             <span class="overline">Performance</span>
             <h2 class="section-title">BENCHMARKS</h2>
         </div>
-        <div class="b-container glass-card">
-            <div class="b-row">
+        <div class="b-container glass-card reveal">
+            <div class="b-row reveal">
                 <div class="b-label">
                     <span>PipeWire Quantum Response</span>
                     <span class="b-val">256 samples (5.3ms)</span>
                 </div>
-                <div class="b-bar-container"><div class="b-bar fill-teal" style="width: 98%;"></div></div>
+                <div class="b-bar-container"><div class="b-bar fill-teal" data-width="98%"></div></div>
             </div>
-            <div class="b-row">
+            <div class="b-row reveal">
                 <div class="b-label">
                     <span>DSP Path Allocations</span>
                     <span class="b-val">0 bytes</span>
                 </div>
-                <div class="b-bar-container"><div class="b-bar fill-purple" style="width: 2%;"></div></div>
+                <div class="b-bar-container"><div class="b-bar fill-purple" data-width="2%"></div></div>
             </div>
-            <div class="b-row">
+            <div class="b-row reveal">
                 <div class="b-label">
                     <span>HRTF Recompute Latency</span>
                     <span class="b-val">42 µs</span>
                 </div>
-                <div class="b-bar-container"><div class="b-bar fill-white" style="width: 15%;"></div></div>
+                <div class="b-bar-container"><div class="b-bar fill-white" data-width="15%"></div></div>
             </div>
-            <div class="b-row">
+            <div class="b-row reveal">
                 <div class="b-label">
                     <span>Head-Track IPC Overhead</span>
                     <span class="b-val">12 µs</span>
                 </div>
-                <div class="b-bar-container"><div class="b-bar fill-teal" style="width: 8%;"></div></div>
+                <div class="b-bar-container"><div class="b-bar fill-teal" data-width="8%"></div></div>
             </div>
         </div>
     </section>
@@ -152,8 +150,7 @@
         </div>
     </footer>
 
-    <!-- Lenis for smooth scrolling -->
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+    <!-- Scripts -->
     <script src="script.js"></script>
 </body>
 </html>
