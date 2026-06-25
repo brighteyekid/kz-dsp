@@ -1,0 +1,17 @@
+# KZ Castor DSP
+
+> A zero-latency Linux DSP daemon engineered in Rust. Featuring hardware-accelerated Woodworth HRTF, real-time head tracking, and zero allocation architecture for the KZ Castor IEMs.
+
+## Quick Facts
+- **Latency:** 0.05ms Added Latency (PipeWire Quantum: 256 samples / 5.3ms)
+- **Head Tracking:** 30 FPS Head Tracking via OpenCV and MediaPipe.
+- **Allocations:** 0 Bytes allocated on the real-time DSP audio path.
+- **HRTF:** Woodworth Spherical-Head Model with Freeverb FDN room simulation.
+
+## System Architecture
+IEM-DSPD is a headless background daemon written in pure Rust. It hooks directly into the PipeWire audio server.
+All DSP operations (10-band PEQ, crossfeed, HRTF convolution, Reverb) are executed in a lock-free, zero-allocation real-time thread.
+Configuration updates are passed via Unix Domain Sockets and swapped atomically, ensuring zero dropouts.
+
+## Links
+- **Source Code:** https://github.com/brighteyekid/kz-dsp

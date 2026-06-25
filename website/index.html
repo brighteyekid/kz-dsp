@@ -28,10 +28,32 @@
     <meta property="twitter:description" content="A zero-latency Linux DSP daemon engineered in Rust. Featuring hardware-accelerated Woodworth HRTF, real-time head tracking, and zero-allocation architecture for the KZ Castor IEMs.">
     <meta property="twitter:image" content="https://kz-dsp.vercel.app/logo.png">
 
+    <!-- LLM & AI Friendly Endpoints -->
+    <link rel="alternate" type="text/markdown" href="https://kz-dsp.vercel.app/llms.txt">
+    <link rel="alternate" type="application/json" href="https://kz-dsp.vercel.app/llms.txt">
+
     <!-- Canonical Link -->
     <link rel="canonical" href="https://kz-dsp.vercel.app/">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- JSON-LD for Semantic Understanding -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "KZ Castor DSP",
+      "operatingSystem": "Linux",
+      "applicationCategory": "MultimediaApplication",
+      "description": "A zero-latency Linux DSP daemon engineered in Rust featuring Woodworth HRTF, parametric EQ, and real-time head tracking.",
+      "url": "https://kz-dsp.vercel.app/",
+      "author": {
+        "@type": "Person",
+        "name": "BrightEyeKid"
+      },
+      "codeRepository": "https://github.com/brighteyekid/kz-dsp"
+    }
+    </script>
 </head>
 <body>
     <div class="loader">
