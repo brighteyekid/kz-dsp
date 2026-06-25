@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=KZ Castor DSP
+GenericName=IEM Equalizer
+Comment=10-band parametric EQ + BS2B crossfeed for KZ Castor IEM
+Exec=/home/fox/.cargo/bin/iem-ui
+Icon=audio-headphones
+Terminal=false
+Categories=Audio;AudioVideo;Mixer;
+Keywords=EQ;equalizer;IEM;headphones;audio;DSP;crossfeed;
+StartupWMClass=iem-ui
+MimeType=

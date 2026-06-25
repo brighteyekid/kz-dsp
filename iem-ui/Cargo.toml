@@ -1,0 +1,31 @@
+[package]
+name = "iem-ui"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "iem-ui"
+path = "src/main.rs"
+
+[dependencies]
+iem-common = { path = "../iem-common" }
+
+# egui / eframe retained-mode GUI
+eframe = { version = "0.29", default-features = false, features = [
+    "accesskit",
+    "default_fonts",
+    "glow",              # OpenGL backend — minimal GPU overhead
+    "persistence",
+] }
+egui = "0.29"
+egui_plot = "0.29"      # frequency response plot
+
+# Async IPC client
+tokio = { version = "1", features = ["rt", "net", "io-util", "sync", "macros"] }
+
+serde_json = "1"
+serde = { version = "1", features = ["derive"] }
+
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+anyhow = "1"

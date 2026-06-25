@@ -1,0 +1,32 @@
+[Unit]
+Description=KZ Castor IEM DSP Daemon (iem-dspd)
+Documentation=https://github.com/you/iem-dspd
+After=pipewire.service pipewire-pulse.service
+BindsTo=pipewire.service
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.cargo/bin/iem-dspd
+Restart=on-failure
+RestartSec=2
+
+# Real-time audio priority — handled by PipeWire's rtkit-daemon.
+# LimitRTPRIO/NICE are advisory; actual RT scheduling is granted by rtkit.
+LimitRTPRIO=95
+LimitNICE=-20
+LimitMEMLOCK=infinity
+
+# Hardening
+NoNewPrivileges=false
+ProtectSystem=strict
+ProtectHome=no
+ReadWritePaths=%h/.config/iem-dspd /tmp
+PrivateTmp=false
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

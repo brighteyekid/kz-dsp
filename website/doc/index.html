@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KZ Castor DSP - Documentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #050505;
+            color: #E0E0E0;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 4rem;
+        }
+        ::-webkit-scrollbar { display: none; }
+        html { scrollbar-width: none; -ms-overflow-style: none; }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 { color: #C8A2FF; font-size: 3rem; margin-bottom: 2rem; font-weight: 600; letter-spacing: -0.03em; }
+        h2 { color: #1AA88E; margin-top: 3rem; border-bottom: 1px solid #1F1F24; padding-bottom: 0.5rem; font-weight: 600; }
+        p { color: #888; margin-bottom: 1.5rem; }
+        code { background: #111; padding: 0.2rem 0.4rem; font-family: 'JetBrains Mono', monospace; font-size: 0.9em; color: #FFF; border-radius: 4px;}
+        pre { background: #0A0A0A; padding: 1.5rem; border: 1px solid #1F1F24; overflow-x: auto; margin-bottom: 2rem; border-radius: 4px; }
+        pre code { background: transparent; padding: 0; color: #aaa; }
+        a { color: #FFF; text-decoration: none; }
+        .back { display: inline-block; margin-bottom: 3rem; color: #666; transition: color 0.3s; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase;}
+        .back:hover { color: #FFF; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back">← Back to Home</a>
+        
+        <h1>Documentation</h1>
+        <p>The KZ Castor DSP is an advanced audio daemon and UI suite built in Rust, leveraging PipeWire for zero-latency audio manipulation. This guide explains how to deploy and configure the entire stack.</p>
+        
+        <h2>1. Installation</h2>
+        <p>Ensure you have Rust, Cargo, and PipeWire installed on your Linux machine.</p>
+        <pre><code>git clone https://github.com/brighteyekid/kz-dsp.git
+cd kz-dsp
+cargo build --release
+cp target/release/iem-dspd ~/.cargo/bin/
+cp target/release/iem-ui ~/.cargo/bin/</code></pre>
+
+        <h2>2. Running the Daemon</h2>
+        <p>The DSP engine runs as a systemd background service. It will intercept your default PipeWire sink and apply the EQ and HRTF parameters natively before sending to hardware.</p>
+        <pre><code>systemctl --user start iem-dspd
+systemctl --user status iem-dspd</code></pre>
+        <p>To view the control panel, run <code>iem-ui</code> in your terminal or application launcher.</p>
+
+        <h2>3. Enabling Spatial Head Tracking</h2>
+        <p>World-locked spatial audio requires the Python tracker module which uses OpenCV and MediaPipe Tasks API to estimate head yaw.</p>
+        <pre><code>cd ~/Documents/kz
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python3 iem-tracker.py</code></pre>
+        <p>Once running, your audio stage will physically lock to your room. To recenter the tracker, press <code>c</code> and <code>Enter</code> in the python terminal.</p>
+    </div>
+
+    <!-- Lenis for smooth scrolling -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+    <script>
+        const lenis = new Lenis({ smooth: true });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+    </script>
+</body>
+</html>
