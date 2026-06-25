@@ -15,7 +15,7 @@
 }
 
 ::-webkit-scrollbar { display: none; }
-html { scrollbar-width: none; -ms-overflow-style: none; scroll-behavior: smooth; }
+html { scrollbar-width: none; -ms-overflow-style: none; }
 
 body {
     background-color: var(--bg);
@@ -439,23 +439,6 @@ h1 {
 .fill-teal { background: var(--teal); color: var(--teal); }
 .fill-purple { background: var(--purple); color: var(--purple); }
 .fill-white { background: #FFF; color: #FFF; }
-
-/* Native Scroll Reveal Animations */
-.reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
 
 /* Footer */
 footer {

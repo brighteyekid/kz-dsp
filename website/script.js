@@ -1,40 +1,92 @@
-// Intersection Observer for scroll animations
-const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.15
-};
+gsap.registerPlugin(ScrollTrigger);
 
-const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-            
-            // If it's a benchmark bar row, animate the bar width
-            if (entry.target.classList.contains('b-row')) {
-                const bar = entry.target.querySelector('.b-bar');
-                if (bar) {
-                    bar.style.width = bar.getAttribute('data-width');
-                }
-            }
-            
-            observer.unobserve(entry.target);
-        }
-    });
-}, observerOptions);
+// Initialize Lenis
+const lenis = new Lenis({
+    lerp: 0.15, 
+    smoothWheel: true,
+});
 
-// Wait for load to remove loader and start observing
+lenis.on('scroll', ScrollTrigger.update);
+
+function raf(time) {
+  lenis.raf(time);
+  requestAnimationFrame(raf);
+}
+requestAnimationFrame(raf);
+
+// Wait for load
 window.addEventListener("load", () => {
     const loader = document.querySelector('.loader');
-    loader.style.opacity = '0';
-    loader.style.transition = 'opacity 0.8s ease';
     
-    setTimeout(() => {
-        loader.style.display = 'none';
-        
-        // Start animations after loader is gone
-        document.querySelectorAll('.reveal').forEach(el => {
-            observer.observe(el);
+    // Hide loader with GSAP
+    gsap.to(loader, {
+        opacity: 0,
+        duration: 0.8,
+        delay: 0.5,
+        ease: "power2.inOut",
+        onComplete: () => {
+            loader.style.display = 'none';
+        }
+    });
+
+    // Hero intro
+    gsap.from(".reveal", {
+        y: 40,
+        opacity: 0,
+        duration: 1.2,
+        stagger: 0.15,
+        ease: "power3.out",
+        delay: 1.0
+    });
+    
+    // Architecture & Feature Cards
+    gsap.from(".feature-card", {
+        scrollTrigger: {
+            trigger: ".feature-grid",
+            start: "top 85%",
+        },
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power2.out"
+    });
+    
+    gsap.from(".arch-container", {
+        scrollTrigger: {
+            trigger: ".arch-container",
+            start: "top 85%",
+        },
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.out"
+    });
+    
+    // Benchmark rows
+    gsap.from(".b-row", {
+        scrollTrigger: {
+            trigger: ".b-container",
+            start: "top 85%",
+        },
+        y: 30,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.15,
+        ease: "power2.out"
+    });
+    
+    // Benchmark bars expanding
+    gsap.utils.toArray('.b-bar').forEach(bar => {
+        gsap.to(bar, {
+            scrollTrigger: {
+                trigger: ".b-container",
+                start: "top 85%",
+            },
+            width: bar.getAttribute('data-width'),
+            duration: 1.5,
+            delay: 0.3,
+            ease: "expo.out"
         });
-    }, 800);
+    });
 });
